@@ -13,6 +13,7 @@ const AuthContext = createContext();
  * @returns {object|null} return.user - The current user object or null if not logged in.
  * @returns {function} return.login - Function to log in a user.
  * @returns {function} return.logout - Function to log out the current user.
+ * @returns {function} return.updateUser - Function to update user profile data.
  */
 export const useAuth = () => useContext(AuthContext);
 
@@ -34,7 +35,15 @@ export const AuthProvider = ({ children }) => {
       setUser(JSON.parse(storedUser));
     } else {
         // Mock login for now since there is no backend
-        const mockUser = { id: 1, name: 'Fachowiec', email: 'fachowiec@example.com' };
+        const mockUser = {
+          id: 1,
+          name: 'Fachowiec',
+          email: 'fachowiec@example.com',
+          company: 'Moja Firma',
+          nip: '',
+          address: '',
+          phone: ''
+        };
         setUser(mockUser);
         localStorage.setItem('user', JSON.stringify(mockUser));
     }
@@ -51,6 +60,19 @@ export const AuthProvider = ({ children }) => {
   };
 
   /**
+   * Updates the current user's profile data.
+   *
+   * @param {object} data - The partial user object to merge.
+   */
+  const updateUser = (data) => {
+    setUser(prev => {
+      const updatedUser = { ...prev, ...data };
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      return updatedUser;
+    });
+  };
+
+  /**
    * Logs out the current user by clearing state and local storage.
    */
   const logout = () => {
@@ -59,7 +81,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );
