@@ -11,6 +11,12 @@ import { Estimates } from './pages/Estimates';
 import { Reports } from './pages/Reports';
 import { Settings } from './pages/Settings';
 
+/**
+ * Main application component.
+ * Sets up the routing and provides global contexts (Auth, Data, Toast).
+ *
+ * @returns {JSX.Element} The root application component.
+ */
 function App() {
   return (
     <Router>

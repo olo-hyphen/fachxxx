@@ -1,10 +1,27 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useToast } from './ToastContext';
 
+/**
+ * Context for managing application data (clients, orders, estimates).
+ * @type {React.Context}
+ */
 const DataContext = createContext();
 
+/**
+ * Custom hook to access the data context.
+ *
+ * @returns {object} The data context value containing clients, orders, estimates and their CRUD operations.
+ */
 export const useData = () => useContext(DataContext);
 
+/**
+ * Provider component for the data context.
+ * Manages state for clients, orders, and estimates, and handles persistence to localStorage.
+ *
+ * @param {object} props - Component props.
+ * @param {React.ReactNode} props.children - Child components to wrap.
+ * @returns {JSX.Element} The provider component.
+ */
 export const DataProvider = ({ children }) => {
   const [clients, setClients] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -30,6 +47,12 @@ export const DataProvider = ({ children }) => {
     loadData();
   }, []);
 
+  /**
+   * Saves data to localStorage.
+   *
+   * @param {string} key - The localStorage key.
+   * @param {any} data - The data to save.
+   */
   const saveData = (key, data) => {
     try {
       localStorage.setItem(key, JSON.stringify(data));
@@ -40,6 +63,12 @@ export const DataProvider = ({ children }) => {
   };
 
   // CRUD for Clients
+
+  /**
+   * Adds a new client.
+   *
+   * @param {object} client - The client object to add.
+   */
   const addClient = (client) => {
     const newClient = { ...client, id: Date.now().toString() };
     const updatedClients = [...clients, newClient];
@@ -48,6 +77,12 @@ export const DataProvider = ({ children }) => {
     addToast("Dodano klienta");
   };
 
+  /**
+   * Updates an existing client.
+   *
+   * @param {string} id - The ID of the client to update.
+   * @param {object} updatedData - The new data for the client.
+   */
   const updateClient = (id, updatedData) => {
     const updatedClients = clients.map(c => c.id === id ? { ...c, ...updatedData } : c);
     setClients(updatedClients);
@@ -55,6 +90,11 @@ export const DataProvider = ({ children }) => {
     addToast("Zaktualizowano klienta");
   };
 
+  /**
+   * Deletes a client.
+   *
+   * @param {string} id - The ID of the client to delete.
+   */
   const deleteClient = (id) => {
     const updatedClients = clients.filter(c => c.id !== id);
     setClients(updatedClients);
@@ -63,6 +103,12 @@ export const DataProvider = ({ children }) => {
   };
 
   // CRUD for Orders
+
+  /**
+   * Adds a new order.
+   *
+   * @param {object} order - The order object to add.
+   */
   const addOrder = (order) => {
     const newOrder = { ...order, id: Date.now().toString(), status: order.status || 'Nowe', createdAt: new Date().toISOString() };
     const updatedOrders = [...orders, newOrder];
@@ -71,6 +117,12 @@ export const DataProvider = ({ children }) => {
     addToast("Dodano zlecenie");
   };
 
+  /**
+   * Updates an existing order.
+   *
+   * @param {string} id - The ID of the order to update.
+   * @param {object} updatedData - The new data for the order.
+   */
   const updateOrder = (id, updatedData) => {
     const updatedOrders = orders.map(o => o.id === id ? { ...o, ...updatedData } : o);
     setOrders(updatedOrders);
@@ -78,6 +130,11 @@ export const DataProvider = ({ children }) => {
     addToast("Zaktualizowano zlecenie");
   };
 
+  /**
+   * Deletes an order.
+   *
+   * @param {string} id - The ID of the order to delete.
+   */
     const deleteOrder = (id) => {
     const updatedOrders = orders.filter(o => o.id !== id);
     setOrders(updatedOrders);
@@ -87,6 +144,12 @@ export const DataProvider = ({ children }) => {
 
 
   // CRUD for Estimates
+
+  /**
+   * Adds a new estimate.
+   *
+   * @param {object} estimate - The estimate object to add.
+   */
   const addEstimate = (estimate) => {
     const newEstimate = { ...estimate, id: Date.now().toString(), createdAt: new Date().toISOString() };
     const updatedEstimates = [...estimates, newEstimate];
@@ -95,6 +158,11 @@ export const DataProvider = ({ children }) => {
     addToast("Utworzono kosztorys");
   };
 
+  /**
+   * Deletes an estimate.
+   *
+   * @param {string} id - The ID of the estimate to delete.
+   */
   const deleteEstimate = (id) => {
       const updatedEstimates = estimates.filter(e => e.id !== id);
       setEstimates(updatedEstimates);

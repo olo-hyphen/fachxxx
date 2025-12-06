@@ -4,6 +4,13 @@ import { BottomNav } from './BottomNav';
 import { useAuth } from '../contexts/AuthContext';
 import { Outlet } from 'react-router-dom';
 
+/**
+ * Main layout component that wraps the application content.
+ * It conditionally renders the sidebar (for desktop) and bottom navigation (for mobile).
+ * It also checks for user authentication.
+ *
+ * @returns {JSX.Element} The layout component containing the sidebar, main content area, and bottom navigation.
+ */
 export const Layout = () => {
   const { user } = useAuth();
 

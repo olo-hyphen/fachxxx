@@ -8,6 +8,12 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { useAuth } from '../contexts/AuthContext';
 
+/**
+ * Component for managing estimates (price quotes).
+ * Allows creating, viewing, deleting, and downloading estimates as PDF.
+ *
+ * @returns {JSX.Element} The rendered estimates page.
+ */
 export const Estimates = () => {
   const { estimates, clients, addEstimate, deleteEstimate } = useData();
   const [searchTerm, setSearchTerm] = useState('');
@@ -152,6 +158,15 @@ export const Estimates = () => {
   );
 };
 
+/**
+ * Form component for creating a new estimate.
+ *
+ * @param {object} props - Component props.
+ * @param {Array<object>} props.clients - List of available clients.
+ * @param {function} props.onSave - Callback function when the form is submitted.
+ * @param {function} props.onCancel - Callback function when the form is cancelled.
+ * @returns {JSX.Element} The rendered estimate form.
+ */
 const EstimateForm = ({ clients, onSave, onCancel }) => {
     const [title, setTitle] = useState('');
     const [clientId, setClientId] = useState('');

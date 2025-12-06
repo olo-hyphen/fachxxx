@@ -5,6 +5,12 @@ import { Button } from '../components/ui/Button';
 import { Download, FileSpreadsheet } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
 
+/**
+ * Reports component displaying charts and export options.
+ * Shows revenue analysis and allows exporting data to CSV.
+ *
+ * @returns {JSX.Element} The rendered reports page.
+ */
 export const Reports = () => {
   const { clients, orders, estimates } = useData();
 
@@ -21,6 +27,12 @@ export const Reports = () => {
     { name: 'Lipiec', amount: 3490 },
   ];
 
+  /**
+   * Exports an array of objects to a CSV file.
+   *
+   * @param {Array<object>} data - The data to export.
+   * @param {string} filename - The name of the file to save (without extension).
+   */
   const exportToCSV = (data, filename) => {
     if (!data || data.length === 0) {
         alert("Brak danych do eksportu");

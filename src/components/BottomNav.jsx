@@ -3,6 +3,11 @@ import { NavLink } from 'react-router-dom';
 import { LayoutDashboard, Users, ClipboardList, Calculator, BarChart3, Settings } from 'lucide-react';
 import clsx from 'clsx';
 
+/**
+ * Array of navigation items for the bottom navigation bar.
+ * Each item contains an icon, label, and path.
+ * @type {Array<{icon: React.ElementType, label: string, path: string}>}
+ */
 const navItems = [
   { icon: LayoutDashboard, label: 'Pulpit', path: '/' },
   { icon: Users, label: 'Klienci', path: '/clients' },
@@ -12,6 +17,12 @@ const navItems = [
   { icon: Settings, label: 'Ustawienia', path: '/settings' },
 ];
 
+/**
+ * Bottom navigation component for mobile devices.
+ * Displays a fixed bottom bar with navigation links.
+ *
+ * @returns {JSX.Element} The rendered bottom navigation bar.
+ */
 export const BottomNav = () => {
   return (
     <nav className="hidden-desktop" style={{
