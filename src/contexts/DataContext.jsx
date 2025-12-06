@@ -52,6 +52,27 @@ export const DataProvider = ({ children }) => {
     const updatedClients = clients.map(c => c.id === id ? { ...c, ...updatedData } : c);
     setClients(updatedClients);
     saveData('clients', updatedClients);
+
+    // Update client name in orders
+    if (updatedData.name !== undefined) {
+      const updatedOrders = orders.map(o =>
+        o.clientId === id ? { ...o, clientName: updatedData.name } : o
+      );
+      if (JSON.stringify(updatedOrders) !== JSON.stringify(orders)) {
+        setOrders(updatedOrders);
+        saveData('orders', updatedOrders);
+      }
+
+      // Update client name in estimates
+      const updatedEstimates = estimates.map(e =>
+        e.clientId === id ? { ...e, clientName: updatedData.name } : e
+      );
+      if (JSON.stringify(updatedEstimates) !== JSON.stringify(estimates)) {
+        setEstimates(updatedEstimates);
+        saveData('estimates', updatedEstimates);
+      }
+    }
+
     addToast("Zaktualizowano klienta");
   };
 
