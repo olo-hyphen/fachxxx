@@ -5,6 +5,12 @@ import { Button, IconButton } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { Plus, Search, Phone, Mail, MessageSquare, Edit, Trash2 } from 'lucide-react';
 
+/**
+ * Component for managing clients.
+ * Allows searching, adding, editing, and deleting clients.
+ *
+ * @returns {JSX.Element} The rendered clients page.
+ */
 export const Clients = () => {
   const { clients, addClient, updateClient, deleteClient } = useData();
   const [searchTerm, setSearchTerm] = useState('');
@@ -131,6 +137,15 @@ export const Clients = () => {
   );
 };
 
+/**
+ * Form component for creating or editing a client.
+ *
+ * @param {object} props - Component props.
+ * @param {object} [props.client] - The client object to edit (if any).
+ * @param {function} props.onSave - Callback function when the form is submitted.
+ * @param {function} props.onCancel - Callback function when the form is cancelled.
+ * @returns {JSX.Element} The rendered client form.
+ */
 const ClientForm = ({ client, onSave, onCancel }) => {
     const [formData, setFormData] = useState({
         name: client?.name || '',

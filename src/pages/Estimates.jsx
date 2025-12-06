@@ -8,6 +8,12 @@ import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { useAuth } from '../contexts/AuthContext';
 
+/**
+ * Component for managing estimates (price quotes).
+ * Allows creating, viewing, deleting, and downloading estimates as PDF.
+ *
+ * @returns {JSX.Element} The rendered estimates page.
+ */
 export const Estimates = () => {
   const { estimates, clients, addEstimate, deleteEstimate } = useData();
   const [searchTerm, setSearchTerm] = useState('');
@@ -45,12 +51,47 @@ export const Estimates = () => {
     doc.setFontSize(12);
     doc.text(estimate.clientName, 14, 58);
 
-    // Provider Info (Mock)
+    // Provider Info from AuthContext (User Settings)
     doc.setFontSize(14);
     doc.text("Wystawca:", 120, 50);
     doc.setFontSize(12);
-    doc.text(user?.name || "Moja Firma", 120, 58);
-    doc.text(user?.email || "kontakt@firma.pl", 120, 64);
+
+    let yPos = 58;
+    if (user?.company) {
+        doc.text(user.company, 120, yPos);
+        yPos += 6;
+    }
+
+    // Display Name if different from Company or if Company is missing
+    if (user?.name && (!user.company || user.name !== user.company)) {
+        doc.text(user.name, 120, yPos);
+        yPos += 6;
+    }
+
+    if (user?.nip) {
+        doc.text(`NIP: ${user.nip}`, 120, yPos);
+        yPos += 6;
+    }
+
+    if (user?.address) {
+        doc.text(user.address, 120, yPos);
+        yPos += 6;
+    }
+
+    if (user?.email) {
+        doc.text(user.email, 120, yPos);
+        yPos += 6;
+    }
+
+    if (user?.phone) {
+        doc.text(user.phone, 120, yPos);
+        yPos += 6;
+    }
+
+    // Default if no info
+    if (!user?.name && !user?.company) {
+         doc.text("Moja Firma", 120, 58);
+    }
 
     // Items Table
     const tableColumn = ["Opis", "Ilosc", "Cena jedn.", "Wartosc"];
@@ -69,7 +110,7 @@ export const Estimates = () => {
     doc.autoTable({
       head: [tableColumn],
       body: tableRows,
-      startY: 75,
+      startY: Math.max(75, yPos + 10), // Ensure table doesn't overlap header
     });
 
     // Total
@@ -152,6 +193,15 @@ export const Estimates = () => {
   );
 };
 
+/**
+ * Form component for creating a new estimate.
+ *
+ * @param {object} props - Component props.
+ * @param {Array<object>} props.clients - List of available clients.
+ * @param {function} props.onSave - Callback function when the form is submitted.
+ * @param {function} props.onCancel - Callback function when the form is cancelled.
+ * @returns {JSX.Element} The rendered estimate form.
+ */
 const EstimateForm = ({ clients, onSave, onCancel }) => {
     const [title, setTitle] = useState('');
     const [clientId, setClientId] = useState('');

@@ -5,6 +5,12 @@ import { Button, IconButton } from '../components/ui/Button';
 import { Input, TextArea } from '../components/ui/Input';
 import { Plus, Search, Calendar, MapPin, Camera, Edit, Trash2 } from 'lucide-react';
 
+/**
+ * Component for managing orders (jobs).
+ * Allows searching, adding, editing, and deleting orders.
+ *
+ * @returns {JSX.Element} The rendered orders page.
+ */
 export const Orders = () => {
   const { orders, clients, addOrder, updateOrder, deleteOrder } = useData();
   const [searchTerm, setSearchTerm] = useState('');
@@ -139,6 +145,16 @@ export const Orders = () => {
   );
 };
 
+/**
+ * Form component for creating or editing an order.
+ *
+ * @param {object} props - Component props.
+ * @param {object} [props.order] - The order object to edit (if any).
+ * @param {Array<object>} props.clients - List of available clients.
+ * @param {function} props.onSave - Callback function when the form is submitted.
+ * @param {function} props.onCancel - Callback function when the form is cancelled.
+ * @returns {JSX.Element} The rendered order form.
+ */
 const OrderForm = ({ order, clients, onSave, onCancel }) => {
     const [formData, setFormData] = useState({
         title: order?.title || '',

@@ -4,6 +4,11 @@ import { LayoutDashboard, Users, ClipboardList, Calculator, BarChart3, Settings,
 import clsx from 'clsx';
 import { useAuth } from '../contexts/AuthContext';
 
+/**
+ * Array of navigation items for the sidebar.
+ * Each item contains an icon, label, and path.
+ * @type {Array<{icon: React.ElementType, label: string, path: string}>}
+ */
 const navItems = [
   { icon: LayoutDashboard, label: 'Pulpit', path: '/' },
   { icon: Users, label: 'Klienci', path: '/clients' },
@@ -13,6 +18,12 @@ const navItems = [
   { icon: Settings, label: 'Ustawienia', path: '/settings' },
 ];
 
+/**
+ * Sidebar navigation component for desktop devices.
+ * Displays a fixed sidebar with navigation links and a logout button.
+ *
+ * @returns {JSX.Element} The rendered sidebar component.
+ */
 export const Sidebar = () => {
   const { logout } = useAuth();
 

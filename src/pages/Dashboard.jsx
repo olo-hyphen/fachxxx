@@ -4,6 +4,34 @@ import { Card } from '../components/ui/Card';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { TrendingUp, Users, ClipboardList, DollarSign } from 'lucide-react';
 
+/**
+ * Helper component to display a statistical card.
+ *
+ * @param {object} props - Component props.
+ * @param {string} props.title - Title of the statistic.
+ * @param {string|number} props.value - Value of the statistic.
+ * @param {React.ElementType} props.icon - Icon component to display.
+ * @param {string} props.color - Color for the icon and background.
+ */
+const StatCard = ({ title, value, icon: Icon, color }) => (
+  <div className="card flex items-center p-4">
+    <div className={`p-3 rounded-full mr-4 bg-opacity-20`} style={{ backgroundColor: `${color}20` }}>
+      <Icon size={24} style={{ color: color }} />
+    </div>
+    <div>
+      <p className="text-secondary text-sm">{title}</p>
+      <h4 className="text-xl font-bold">{value}</h4>
+    </div>
+  </div>
+);
+
+/**
+ * Dashboard component displaying key metrics and charts.
+ * Shows summary of clients, active orders, revenue, and estimates.
+ * Also displays revenue chart and order status distribution.
+ *
+ * @returns {JSX.Element} The rendered dashboard page.
+ */
 export const Dashboard = () => {
   const { clients, orders, estimates } = useData();
 
@@ -34,18 +62,6 @@ export const Dashboard = () => {
   }, [orders]);
 
   const COLORS = ['#0A2463', '#3DDC97', '#0088FE', '#E53E3E'];
-
-  const StatCard = ({ title, value, icon: Icon, color }) => (
-    <div className="card flex items-center p-4">
-      <div className={`p-3 rounded-full mr-4 bg-opacity-20`} style={{ backgroundColor: `${color}20` }}>
-        <Icon size={24} style={{ color: color }} />
-      </div>
-      <div>
-        <p className="text-secondary text-sm">{title}</p>
-        <h4 className="text-xl font-bold">{value}</h4>
-      </div>
-    </div>
-  );
 
   return (
     <div className="flex flex-col gap-6">
