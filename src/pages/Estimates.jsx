@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useData } from '../contexts/DataContext';
 import { Card } from '../components/ui/Card';
 import { Button, IconButton } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
-import { Plus, Search, FileText, Trash2, Download, Minus } from 'lucide-react';
+import { Plus, Search, FileText, Trash2, Download, Minus, Pencil } from 'lucide-react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { useAuth } from '../contexts/AuthContext';
 
 export const Estimates = () => {
-  const { estimates, clients, addEstimate, deleteEstimate } = useData();
+  const { estimates, clients, addEstimate, deleteEstimate, updateEstimate } = useData();
   const [searchTerm, setSearchTerm] = useState('');
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [editingEstimate, setEditingEstimate] = useState(null);
   const { user } = useAuth();
 
   const filteredEstimates = estimates.filter(est =>
@@ -23,6 +24,21 @@ export const Estimates = () => {
     if (window.confirm('Czy na pewno chcesz usunąć ten kosztorys?')) {
       deleteEstimate(id);
     }
+  };
+
+  const handleEdit = (estimate) => {
+    setEditingEstimate(estimate);
+    setIsFormOpen(true);
+  };
+
+  const handleSave = (data) => {
+    if (editingEstimate) {
+      updateEstimate(editingEstimate.id, data);
+    } else {
+      addEstimate(data);
+    }
+    setEditingEstimate(null);
+    setIsFormOpen(false);
   };
 
   const generatePDF = (estimate) => {
@@ -118,7 +134,8 @@ export const Estimates = () => {
                   <Button variant="secondary" className="text-xs px-2 py-1" onClick={() => generatePDF(est)}>
                        <Download size={14} className="mr-1" /> PDF
                   </Button>
-                  <IconButton icon={Trash2} className="text-secondary hover:text-error p-1" onClick={() => handleDelete(est.id)} />
+                  <IconButton icon={Pencil} className="text-secondary hover:text-primary p-1" onClick={() => handleEdit(est)} title="Edytuj" />
+                  <IconButton icon={Trash2} className="text-secondary hover:text-error p-1" onClick={() => handleDelete(est.id)} title="Usuń" />
               </div>
             </Card>
           ))
@@ -129,21 +146,19 @@ export const Estimates = () => {
         )}
       </div>
 
-      <button className="fab hidden-desktop" onClick={() => setIsFormOpen(true)}>
+      <button className="fab hidden-desktop" onClick={() => { setEditingEstimate(null); setIsFormOpen(true); }}>
         <Plus size={24} />
       </button>
 
       {isFormOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-            <h2 className="text-xl font-bold mb-4">Nowy kosztorys</h2>
+            <h2 className="text-xl font-bold mb-4">{editingEstimate ? 'Edytuj kosztorys' : 'Nowy kosztorys'}</h2>
             <EstimateForm
                 clients={clients}
-                onSave={(data) => {
-                    addEstimate(data);
-                    setIsFormOpen(false);
-                }}
-                onCancel={() => setIsFormOpen(false)}
+                initialData={editingEstimate}
+                onSave={handleSave}
+                onCancel={() => { setIsFormOpen(false); setEditingEstimate(null); }}
             />
           </div>
         </div>
@@ -152,10 +167,23 @@ export const Estimates = () => {
   );
 };
 
-const EstimateForm = ({ clients, onSave, onCancel }) => {
+const EstimateForm = ({ clients, initialData, onSave, onCancel }) => {
     const [title, setTitle] = useState('');
     const [clientId, setClientId] = useState('');
     const [items, setItems] = useState([{ description: '', quantity: 1, price: 0 }]);
+
+    useEffect(() => {
+        if (initialData) {
+            setTitle(initialData.title);
+            setClientId(initialData.clientId);
+            setItems(initialData.items);
+        } else {
+             // Reset form when not editing
+             setTitle('');
+             setClientId('');
+             setItems([{ description: '', quantity: 1, price: 0 }]);
+        }
+    }, [initialData]);
 
     const addItem = () => {
         setItems([...items, { description: '', quantity: 1, price: 0 }]);
@@ -259,7 +287,7 @@ const EstimateForm = ({ clients, onSave, onCancel }) => {
 
             <div className="flex gap-3 mt-4">
                 <Button type="button" variant="secondary" className="flex-1" onClick={onCancel}>Anuluj</Button>
-                <Button type="submit" className="flex-1">Utwórz kosztorys</Button>
+                <Button type="submit" className="flex-1">{initialData ? 'Zapisz zmiany' : 'Utwórz kosztorys'}</Button>
             </div>
         </form>
     );

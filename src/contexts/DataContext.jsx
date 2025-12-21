@@ -102,11 +102,18 @@ export const DataProvider = ({ children }) => {
       addToast("Usunięto kosztorys");
   }
 
+  const updateEstimate = (id, updatedData) => {
+    const updatedEstimates = estimates.map(e => e.id === id ? { ...e, ...updatedData } : e);
+    setEstimates(updatedEstimates);
+    saveData('estimates', updatedEstimates);
+    addToast("Zaktualizowano kosztorys");
+  };
+
   return (
     <DataContext.Provider value={{
       clients, addClient, updateClient, deleteClient,
       orders, addOrder, updateOrder, deleteOrder,
-      estimates, addEstimate, deleteEstimate
+      estimates, addEstimate, deleteEstimate, updateEstimate
     }}>
       {children}
     </DataContext.Provider>
