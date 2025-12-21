@@ -2,17 +2,14 @@ import React from 'react';
 import { Sidebar } from './Sidebar';
 import { BottomNav } from './BottomNav';
 import { useAuth } from '../contexts/AuthContext';
-import { Outlet } from 'react-router-dom';
+import { Outlet, Navigate, useLocation } from 'react-router-dom';
 
 export const Layout = () => {
   const { user } = useAuth();
+  const location = useLocation();
 
   if (!user) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <p>Proszę się zalogować (Mock: Jesteś już zalogowany w tle)</p>
-      </div>
-    );
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
   return (
