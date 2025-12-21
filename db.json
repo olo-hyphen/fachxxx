@@ -1,0 +1,59 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Fachowiec",
+      "email": "fachowiec@example.com",
+      "password": "password123",
+      "companyName": "Usługi Remontowe Jan Kowalski",
+      "nip": "123-456-78-90",
+      "address": "ul. Prosta 1, 00-001 Warszawa",
+      "phone": "123 456 789",
+      "bankAccount": ""
+    },
+    {
+      "id": 1766330452895,
+      "name": "Test User",
+      "email": "test1766330452717@example.com",
+      "password": "password123",
+      "companyName": "Test Company",
+      "nip": "1234567890",
+      "address": "",
+      "phone": "",
+      "bankAccount": ""
+    },
+    {
+      "id": 1766330525380,
+      "name": "Test User",
+      "email": "test_1766330525@example.com",
+      "password": "password123",
+      "companyName": "",
+      "nip": "",
+      "address": "",
+      "phone": "",
+      "bankAccount": ""
+    },
+    {
+      "id": 1766330667883,
+      "name": "Test User",
+      "email": "test1766330667514@example.com",
+      "password": "$2b$10$nplS1g2BYYufM6Ht/nLVf.g1sxKKHhR2tfMxjXukT/0brFg02AfhO",
+      "companyName": "Test Company",
+      "nip": "1234567890",
+      "address": "",
+      "phone": "",
+      "bankAccount": ""
+    },
+    {
+      "id": 1766330683281,
+      "name": "Test User",
+      "email": "test_1766330682@example.com",
+      "password": "$2b$10$MIRxSspD/bwchcE1CPuFPedd5A9Y6gNY8jMfQJue4MLNFdh.eAgNm",
+      "companyName": "",
+      "nip": "",
+      "address": "",
+      "phone": "",
+      "bankAccount": ""
+    }
+  ]
+}

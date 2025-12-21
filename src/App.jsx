@@ -10,6 +10,8 @@ import { Orders } from './pages/Orders';
 import { Estimates } from './pages/Estimates';
 import { Reports } from './pages/Reports';
 import { Settings } from './pages/Settings';
+import { Login } from './pages/Login';
+import { Register } from './pages/Register';
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <AuthProvider>
           <DataProvider>
             <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
               <Route path="/" element={<Layout />}>
                 <Route index element={<Dashboard />} />
                 <Route path="clients" element={<Clients />} />
