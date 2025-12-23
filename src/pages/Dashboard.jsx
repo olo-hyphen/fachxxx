@@ -4,6 +4,18 @@ import { Card } from '../components/ui/Card';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 import { TrendingUp, Users, ClipboardList, DollarSign } from 'lucide-react';
 
+const StatCard = ({ title, value, icon: Icon, color }) => (
+  <div className="card flex items-center p-4">
+    <div className={`p-3 rounded-full mr-4 bg-opacity-20`} style={{ backgroundColor: `${color}20` }}>
+      <Icon size={24} style={{ color: color }} />
+    </div>
+    <div>
+      <p className="text-secondary text-sm">{title}</p>
+      <h4 className="text-xl font-bold">{value}</h4>
+    </div>
+  </div>
+);
+
 export const Dashboard = () => {
   const { clients, orders, estimates } = useData();
 
@@ -34,18 +46,6 @@ export const Dashboard = () => {
   }, [orders]);
 
   const COLORS = ['#0A2463', '#3DDC97', '#0088FE', '#E53E3E'];
-
-  const StatCard = ({ title, value, icon: Icon, color }) => (
-    <div className="card flex items-center p-4">
-      <div className={`p-3 rounded-full mr-4 bg-opacity-20`} style={{ backgroundColor: `${color}20` }}>
-        <Icon size={24} style={{ color: color }} />
-      </div>
-      <div>
-        <p className="text-secondary text-sm">{title}</p>
-        <h4 className="text-xl font-bold">{value}</h4>
-      </div>
-    </div>
-  );
 
   return (
     <div className="flex flex-col gap-6">
